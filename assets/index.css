@@ -164,6 +164,9 @@ iframe{
     html{
         font-size: 10px;
     }
+    .logo{
+        display: none;
+    }
 }
 
 
