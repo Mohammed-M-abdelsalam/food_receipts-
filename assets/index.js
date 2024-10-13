@@ -44,12 +44,11 @@ searchBtn.addEventListener("click", (e)=>{
     }
     fetchRecipts(search.value.trim())
     .then((d)=>{
-        let c = 0;
-        d.meals.map((el)=>{
+        const fragment = document.createDocumentFragment();
+        d.meals.forEach( el => {
             const card = document.createElement("div");
             card.classList.add("card");
-            meals.appendChild(card);
-            card.innerHTML += `
+            card.innerHTML = `
                 <img src="${el.strMealThumb}" loading="lazy" alt="pic">
                 <div class="content">
                     <div class="food_name">${el.strMeal}</div>
@@ -60,18 +59,19 @@ searchBtn.addEventListener("click", (e)=>{
             `;
             const viewBtn = document.createElement('button');
             viewBtn.textContent = "view";
-            card.appendChild(viewBtn);
             viewBtn.classList.add("view_btn");
+            card.appendChild(viewBtn);
+
             
-            function handleViewClick(e) {
+            // Add the event listener
+            viewBtn.addEventListener('click', e => {
                 e.preventDefault();
                 recipts.style.display = "block";
                 getReciptContent(el);
-            } 
-            // Add the event listener
-            viewBtn.addEventListener('click', handleViewClick);
-            
+            });
+            fragment.appendChild(card);  
         });
+        meals.append(fragment);
     }).catch((e)=>{
         console.log(`Error: ${e}`);
         document.write('something went wrong')
